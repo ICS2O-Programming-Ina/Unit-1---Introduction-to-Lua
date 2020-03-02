@@ -11,10 +11,9 @@ local widthOfRectangle = 350
 local heightOfRectangle = 200
 local areaOfRectangle
 local circleAreaText 
-local signature = 50
 local myCircle 
 local radiusOfCircle = 100
-local PI = 3.12 
+local PI = 3.14
 local areaOfCircle
 -- set the background colour of my screen.Remeber that colors are between 0 and 1. 
 display.setDefault("background", 154/255, 204/255, 255,255)
@@ -37,7 +36,7 @@ myRectangle.strokeWidth = 20
 myRectangle:setFillColor(0.7, 0.1, 0.3)
 
 -- set the color of the border
-myRectangle:setStrokeColor(0, 1, 0)
+myRectangle:setStrokeColor(.8, .7, .8)
 
 -- calculate the area 
 areaOfRectangle = widthOfRectangle * heightOfRectangle
@@ -71,20 +70,20 @@ myCircle.strokeWidth = 20
 myCircle:setFillColor(0.7, 0.1, 0.3)
 
 -- set the color of the border
-myCircle:setStrokeColor(0, 1, 0)
+myCircle:setStrokeColor(.8, .7, .8)
 
 -- calculate the area 
 areaOfCircle = radiusOfCircle * radiusOfCircle * PI
 
 -- write the area on the screen. Take into consideration the size of the font when positioning it on the screen
-areaText = display.newText("The area of this circle with a radius of \n" ..
+circleAreaText = display.newText("The area of this circle with a radius of \n" ..
 	radiusOfCircle .. " is " .. areaOfCircle .. " pixels².",0, 0, Arial, textSize)
 
 -- andchor the text and set its (x,y) position 
-areaText.anchorX = -20
-areaText.anchorY = 40
-areaText.x = 20 
-areaText.y = display.contentHeight/2
+circleAreaText.anchorX = -20
+circleAreaText.anchorY = 40
+circleAreaText.x = 20 
+circleAreaText.y = display.contentHeight/2
 
 -- set the colour of the newText 
-areaText:setTextColor(1, 1, 1)
+circleAreaText:setTextColor(1, 1, 1)
