@@ -25,7 +25,7 @@ beetleship.x = 0
 beetleship.y = display.contentHeight/3 
 
 -- character image with width and height
-local beetleship = display.newImageRect("Images/girl2.png", 200, 200)
+local girl2 = display.newImageRect("Images/girl2.png", 200, 200)
 
 -- flip the image horizontally
 girl2:scale( -1, 1 )

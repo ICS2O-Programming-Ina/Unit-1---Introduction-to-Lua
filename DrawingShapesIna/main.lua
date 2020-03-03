@@ -108,4 +108,4 @@ areaText.x = 525
 areaText.y = 310
 
 -- set the colour of the newText
-areaText:setTextColor(191/255, 187/255, 190/255)
+areaText:setTextColor(138/255, 124/255, 124/255)
