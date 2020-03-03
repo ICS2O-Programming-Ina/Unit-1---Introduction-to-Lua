@@ -30,10 +30,12 @@ local beetleship = display.newImageRect("Images/girl2.png", 200, 200)
 -- flip the image horizontally
 girl2:scale( -1, 1 )
 
--- set the initial x and y position of the girl 
-girl2.x = 0 
-girl2.y = display.contentHeight 
+-- set the image to be transparent 
+girl2.alpha = 1
 
+-- set the initial x and y position of the girl2
+girl2.x = 1024
+girl2.y = display.contentHeight/2
 
 -- Function: MoveShip 
 -- Input: this function accepts an event listener
@@ -49,3 +51,16 @@ end
 -- MoveShip will be called over and over again 
 Runtime:addEventListener("enterFrame", MoveShip)
 
+-- Function: MoveGirl2 
+-- Input: this function accepts an event listener
+-- Output: none 
+-- Description: This function adds the scroll speed to the x-value of the girl2
+local function MoveGirl2(event)
+	-- add the scroll speed to the x-value of the girl2
+	girl2.x = girl2.x - scrollSpeed 
+	-- change the transparency of the girl2 every time it moves so that it fades in 
+	girl2.alpha = girl2.alpha - 0.00000000001 
+end 
+
+-- MoveGirl2 will be called over and over again 
+Runtime:addEventListener("enterFrame", MoveGirl2)
