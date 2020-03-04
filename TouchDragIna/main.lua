@@ -52,3 +52,23 @@ end
 
 -- add the respective listeners to each object 
  beetleship:addEventListener("touch", BeetleshipListener)
+
+-- Function: StarListener 
+-- Input: touch lisetenr 
+-- Output: none
+-- Description: when star is touhed move it 
+local function StarListener(touch)
+	if(touch.phase == "began") then 
+		if (alreadyTouchedStar == false) then 
+			alreadyTouchedStar = true
+		end 
+	end 
+
+	if ( ( touch.phase == "moved") and (alreadyTouchedStar == true) ) then 
+		star = touch.x 
+		star = touch. y
+	end 
+
+	if ( ( touch.phase == "ended") ) then 
+		alreadyTouchedStar
+
