@@ -20,10 +20,15 @@ local bear = display.newImageRect("Images/bear.png", 200, 200)
 local bearWidth = bear.width 
 local bearHeight = bear.height
 
+local jupiter = display.newImageRect("Images/jupiter.png", 200, 150)
+local jupiterWidth = jupiter.width 
+local jupiterHeight = jupiter.height
+
 -- my boolean variables to keep track of which object I touched first 
 local alreadyTouchedBeetleship = false 
 local alreadyTouchedStar = false 
 local alreadyTouchedBear = false
+local alreadyTouchedJupiter = false
 
 -- set the inital x and y positon of myImage 
 beetleship.x = 400
@@ -33,7 +38,10 @@ star.x = 300
 star.y = 200 
 
 bear.x = 800
-bear.y = 500
+bear.y = 400
+
+jupiter.x = 100
+jupiter.y = 100
 
 -- Function: BeetleshipListener 
 -- Input: touch listener 
@@ -94,12 +102,12 @@ star: addEventListener("touch", StarListener)
 local function BearListener(touch)
 	
 	if (touch.phase == "began") then 
-		if (alreadyTouchedStar == false) then 
+		if (alreadyTouchedJupiter == false) then 
 			alreadyTouchedBear = true
 		end
     end
 
-	if ( (touch.phase == "moved") and (alreadyTouchedBear== true) ) then 
+	if ( (touch.phase == "moved") and (alreadyTouchedBear == true) ) then 
 		bear.x = touch.x 
 		bear.y = touch.y 
 	end
@@ -112,4 +120,30 @@ end
 
 -- add the respective listeners to each object 
  bear:addEventListener("touch", BearListener)
+
+-- Function: JupiterListener 
+-- Input: touch listener 
+-- Output: none
+-- Description: when jupiter is touched, move it 
+local function JupiterListener(touch)
+	
+	if (touch.phase == "began") then 
+		if (alreadyTouchedBeetleship == false) then 
+			alreadyTouchedJupiter = true
+		end
+    end
+
+	if ( (touch.phase == "moved") and (alreadyTouchedJupiter == true) ) then 
+		jupiter.x = touch.x 
+		jupiter.y = touch.y 
+	end
+
+	if (touch.phase == "ended") then 
+		alreadyTouchedJupiter = false 
+		alreadyTouchedBear =  false
+	end
+end
+
+-- add the respective listeners to each object 
+ jupiter:addEventListener("touch", JupiterListener)
 
