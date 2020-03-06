@@ -50,7 +50,8 @@ jupiter.y = 100
 local function BeetleshipListener(touch)
 	
 	if (touch.phase == "began") then 
-		if (alreadyTouchedStar == false) then 
+		if (alreadyTouchedStar == false) and (alreadyTouchedBear == false) and 
+			(alreadyTouchedJupiter == false) then 
 			alreadyTouchedBeetleship = true
 		end
     end
@@ -63,6 +64,8 @@ local function BeetleshipListener(touch)
 	if (touch.phase == "ended") then 
 		alreadyTouchedBeetleship = false 
 		alreadyTouchedStar =  false
+		alreadyTouchedBear = false
+		alreadyTouchedJupiter = false
 	end
 end
 
@@ -76,7 +79,8 @@ end
 local function StarListener(touch)
 
 	if (touch.phase == "began") then 
-		if (alreadyTouchedBeetleship == false) then 
+		if (alreadyTouchedBeetleship == false) and (alreadyTouchedBear == false)  and 
+			(alreadyTouchedJupiter == false) then 
 			alreadyTouchedStar = true
 		end 
 	end 
@@ -102,7 +106,8 @@ star: addEventListener("touch", StarListener)
 local function BearListener(touch)
 	
 	if (touch.phase == "began") then 
-		if (alreadyTouchedJupiter == false) then 
+		if (alreadyTouchedJupiter == false) and (alreadyTouchedBeetleship == false) and
+			(alreadyTouchedStar == false) then 
 			alreadyTouchedBear = true
 		end
     end
@@ -128,7 +133,8 @@ end
 local function JupiterListener(touch)
 	
 	if (touch.phase == "began") then 
-		if (alreadyTouchedBeetleship == false) then 
+		if (alreadyTouchedBeetleship == false) and (alreadyTouchedBear == false) and 
+			(alreadyTouchedStar == false) then 
 			alreadyTouchedJupiter = true
 		end
     end
