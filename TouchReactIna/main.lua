@@ -7,7 +7,7 @@
 display.setDefault ("background", 229/255, 123/255, 123/255)
 
 -- hide status bar 
-display.setStatusBar(display.HiddenStatusbar)
+display.setStatusBar(display.HiddenStatusBar)
 
 -- create blue button, set its position and make it visible 
 local blueButton = display.newImageRect("images/Fast Button Inactive@2x.png", 198, 96)
@@ -23,9 +23,8 @@ redButton.isVisible = false
 
 -- create text objects, set its positon and make it invisible 
 local textObject = display.newText ("Clicked!", 0, 0, nil, 50)
-textObject.x = display.contentWidth/2
-textObject.y = display.contentHeight/2
-textObject:setTextColor (1, 1, 0)
+textObject.x = 512
+textObject.y = 300
 textObject.isVisible = false 
 
 -- Function: BlueButtonListener 
@@ -57,4 +56,4 @@ local function RedButtonListener(touch)
 end 
 
 -- add the respective listeners to each object 
-redButton: addEventListener("touc")
+redButton: addEventListener("touch", RedButtonListener)
