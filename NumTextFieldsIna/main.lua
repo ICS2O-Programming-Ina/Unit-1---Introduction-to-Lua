@@ -25,6 +25,7 @@ local userAnswer
 local correctAnswer
 local inCorrectObject 
 local textSize = 50
+local points = 0
 
 ----------------------------------------------------------------------
 --LOCAL FUNCTIONS
@@ -103,6 +104,16 @@ numericField.inputType = "number"
 -- add the event listener fot the numeric field 
 numericField:addEventListener( "userInput", NumericFieldListener )
 
+-- display the amount of points as a text object 
+pointsText = display.newText("Points = " .. points, display.contentWidth/3, display.contentHeight/3, nil, 50)
+if(userAnswer == correctAnswer) then 
+	-- give a point if the user gets the correct answer 
+	points = points + 1 
+
+	-- update it in the display object
+	pointsText.text = "Points = " .. points
+if (points = 5) then 
+	
 -----------------------------------------------------------------------------------------------
 -- FUNCTION CALLS 
 ------------------------------------------------------------------------------------------------
