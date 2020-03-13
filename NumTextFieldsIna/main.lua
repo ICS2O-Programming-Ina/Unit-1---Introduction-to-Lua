@@ -26,7 +26,7 @@ local correctAnswer
 local inCorrectObject 
 local textSize = 50
 local points = 0
-
+local incorrectAnswer 
 ----------------------------------------------------------------------
 --LOCAL FUNCTIONS
 ----------------------------------------------------------------------
@@ -112,7 +112,13 @@ if(userAnswer == correctAnswer) then
 
 	-- update it in the display object
 	pointsText.text = "Points = " .. points
-if (points = 5) then 
+end
+if (points == 5) then 
+	display.newText("You Win")
+end
+if (incorrectAnswer == 3) then 
+	display.newText("Game Over")
+end
 	
 -----------------------------------------------------------------------------------------------
 -- FUNCTION CALLS 
