@@ -26,7 +26,10 @@ local correctAnswer
 local inCorrectObject 
 local textSize = 50
 local points = 0
-local incorrectAnswer 
+local incorrect = 0
+local gameOverText = "Game Over"
+local youWinText = "You Win"
+local actualAnswerText 
 ----------------------------------------------------------------------
 --LOCAL FUNCTIONS
 ----------------------------------------------------------------------
@@ -53,6 +56,11 @@ local function HideInCorrect()
 	AskQuestion()
 end
 
+local function HideActualAnswerText()
+	actualAnswerText.isVisible = false
+end
+
+
 local function NumericFieldListener( event )
 
 	-- User begins editing "numericField"
@@ -71,14 +79,46 @@ local function NumericFieldListener( event )
 			event.target.text = ""
 			correctObject.isVisible = true 
 			timer.performWithDelay(2100, HideCorrect)
+			-- give a point if the user gets the correct answer 
+			points = points + 1 
+			-- update it in the display object
+			pointsText.text = "Points = " .. points
+
 		elseif (userAnswer < correctAnswer ) or (userAnswer > correctAnswer) then 
-			event.target.text = ""
-			inCorrectObject.isVisible = true
-			timer.performWithDelay(2500, HideInCorrect)
+				event.target.text = ""					
+				inCorrectObject.isVisible = true
+				timer.performWithDelay(2500, HideInCorrect)
+				incorrect = incorrect + 1
+				incorrectText.text = "Incorrect = " .. incorrect
+				actualAnswerText,isVisible = true
+				timer.performWithDelay(2500, HideActualAnswerText)
+				actualAnswerText = display.newText("The correct answer is " .. correctAnswer, 280, 205, nil, 30)
+				actualAnswerText:setTextColor(176/255, 179/255, 191/255 )					
+				
+			if (incorrect == 3) then 
+				inCorrectObject.isVisible = false
+				numericField.isVisible = false
+				questionObject.isVisible = false
+				incorrectText.isVisible = false 
+				pointsText.isVisible = false
+				actualAnswerText.isVisible = false
+				gameOverText = display.newText(gameOverText, 512, 384, nil, 75)
+				gameOverText:setTextColor(176/255, 179/255, 191/255)	
+
+			elseif (points == 6) then 
+				correctObject.isVisible = false
+				pointsText.isVisible = false
+				questionObject.isVisible = false
+				numericField.isVisible = false 
+				incorrectText.isVisible = false 
+				youWinText = display.newText(youWinText, 512, 384, nil, 75)
+				youWinText:setTextColor(176/255, 179/255, 191/255)	
+			end
 		end
 	end
-end 
+end
 
+	
 -------------------------------------------------------------------------------------
 -- OBJECT CREATION 
 -------------------------------------------------------------------------------------
@@ -105,24 +145,19 @@ numericField.inputType = "number"
 numericField:addEventListener( "userInput", NumericFieldListener )
 
 -- display the amount of points as a text object 
-pointsText = display.newText("Points = " .. points, display.contentWidth/3, display.contentHeight/3, nil, 50)
-if(userAnswer == correctAnswer) then 
-	-- give a point if the user gets the correct answer 
-	points = points + 1 
+pointsText = display.newText("Points = " .. points, 850, 70, nil, 50)
+pointsText:setTextColor(124/255, 133/255, 255/255)
 
-	-- update it in the display object
-	pointsText.text = "Points = " .. points
-end
-if (points == 5) then 
-	display.newText("You Win")
-end
-if (incorrectAnswer == 3) then 
-	display.newText("Game Over")
-end
-	
------------------------------------------------------------------------------------------------
+incorrectText = display.newText("Incorrect = " .. incorrect, 90, 745, nil, 25)
+incorrectText:setTextColor(124/255, 133/255, 255/255)
+
+-----------------------------------------------------------------------------------------
 -- FUNCTION CALLS 
 ------------------------------------------------------------------------------------------------
 
 -- call the function to ask the question 
 AskQuestion()
+
+
+
+
