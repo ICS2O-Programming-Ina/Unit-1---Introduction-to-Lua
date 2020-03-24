@@ -8,7 +8,7 @@
 display.setStatusBar(display.HiddenStatusBar)
 
 -- sets the background colour
-display.setDefault("background", 190/255, 255/255, 250/255)
+display.setDefault("background", 93/255, 137/255, 128/255)
 
 ----------------------------------------------------------------------
 -- LOCAL VARIABLES 
@@ -18,6 +18,7 @@ display.setDefault("background", 190/255, 255/255, 250/255)
 local questionObject 
 local correctObject 
 local numericField 
+local randomOperator = math.random(1,2)
 local randomNumber1
 local randomNumber2 
 local userAnswer 
@@ -25,6 +26,7 @@ local correctAnswer
 local inCorrectObject 
 local textSize = 50
 local incorrect = 0
+local actualAnswerText 
 ----------------------------------------------------------------------
 --LOCAL FUNCTIONS
 ----------------------------------------------------------------------
@@ -34,8 +36,8 @@ local function AskQuestion()
 	randomOperator = math.random(1,2)
 
 	-- generate 2 random numbers
-	randomNumber1 = math.random(0, 8)
-	randomNumber2 = math.random(0, 8)
+	randomNumber1 = math.random(0, 4)
+	randomNumber2 = math.random(0, 4)
 
 	-- if the random operator is 1, then do addition 
 	if (randomOperator == 1) then 
@@ -54,6 +56,67 @@ local function AskQuestion()
 		-- create question in text object 
 	end
 end 
+
+local function HideCorrect() 
+	correctObject.isVisible = false
+	AskQuestion()
+end
+
+local function HideInCorrect()
+	inCorrectObject.isVisible = false 
+	AskQuestion()
+end
+
+local function NumericFieldListener( event )
+
+	-- User begins editing "numericField"
+	if ( event.phase == "began" ) then 
+
+		-- clear text field 
+		event.target.text = ""
+
+	elseif event.phase == "submitted" then 
+
+		-- when the answer is submitted(enter key is pressed) set user input to user's answer 
+		userAnswer = tonumber(event.target.text)
+
+		-- if the users answer and correct answer are the same: 
+		if (userAnswer == correctAnswer) then 
+			event.target.text = ""
+			correctObject.isVisible = true 
+			timer.performWithDelay(2100, HideCorrect)
+		else
+			event.target.text = ""					
+			inCorrectObject.isVisible = true
+			timer.performWithDelay(2500, HideInCorrect)
+		end
+	end
+end
+
+-------------------------------------------------------------------------------------
+-- OBJECT CREATION 
+-------------------------------------------------------------------------------------
+
+-- displays a question and sets the colour 
+questionObject = display.newText( "", 210, 70, nil, 50, Arial, textSize )
+questionObject:setTextColor(250/255, 209/255, 243/255)
+
+-- create the correct text object and make it visible 
+correctObject = display.newText( "Correct!", 230, 150, nil, 50 )
+correctObject:setTextColor(186/255, 188/255, 186/255)
+correctObject.isVisible = false 
+
+-- create the incorrect text obejct and make it visible 
+inCorrectObject = display.newText( "Incorrect", 230, 150, nil, 50 )
+inCorrectObject:setTextColor(209/255, 209/255, 209/255)
+inCorrectObject.isVisible = false 
+
+-- create numeric field 
+numericField = native.newTextField( 370, 70, 150, 70 )
+numericField.inputType = "number"
+
+-- add the event listener fot the numeric field 
+numericField:addEventListener( "userInput", NumericFieldListener )
 
 -----------------------------------------------------------------------------------------
 -- FUNCTION CALLS 

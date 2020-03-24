@@ -83,17 +83,27 @@ local function NumericFieldListener( event )
 			points = points + 1 
 			-- update it in the display object
 			pointsText.text = "Points = " .. points
+		
+			if (points == 6) then 
+				correctObject.isVisible = false
+				pointsText.isVisible = false
+				questionObject.isVisible = false
+				numericField.isVisible = false 
+				incorrectText.isVisible = false 
+				youWinText = display.newText(youWinText, 512, 384, nil, 75)
+				youWinText:setTextColor(176/255, 179/255, 191/255)	
+			end
 
-		elseif (userAnswer < correctAnswer ) or (userAnswer > correctAnswer) then 
-				event.target.text = ""					
-				inCorrectObject.isVisible = true
-				timer.performWithDelay(2500, HideInCorrect)
-				incorrect = incorrect + 1
-				incorrectText.text = "Incorrect = " .. incorrect
-				actualAnswerText,isVisible = true
-				timer.performWithDelay(2500, HideActualAnswerText)
-				actualAnswerText = display.newText("The correct answer is " .. correctAnswer, 280, 205, nil, 30)
-				actualAnswerText:setTextColor(176/255, 179/255, 191/255 )					
+		else 
+			event.target.text = ""					
+			inCorrectObject.isVisible = true
+			timer.performWithDelay(2500, HideInCorrect)
+			incorrect = incorrect + 1
+			incorrectText.text = "Incorrect = " .. incorrect
+			actualAnswerText,isVisible = true
+			timer.performWithDelay(2500, HideActualAnswerText)
+			actualAnswerText = display.newText("The correct answer is " .. correctAnswer, 280, 205, nil, 30)
+			actualAnswerText:setTextColor(176/255, 179/255, 191/255 )					
 				
 			if (incorrect == 3) then 
 				inCorrectObject.isVisible = false
@@ -104,15 +114,6 @@ local function NumericFieldListener( event )
 				actualAnswerText.isVisible = false
 				gameOverText = display.newText(gameOverText, 512, 384, nil, 75)
 				gameOverText:setTextColor(176/255, 179/255, 191/255)	
-
-			elseif (points == 6) then 
-				correctObject.isVisible = false
-				pointsText.isVisible = false
-				questionObject.isVisible = false
-				numericField.isVisible = false 
-				incorrectText.isVisible = false 
-				youWinText = display.newText(youWinText, 512, 384, nil, 75)
-				youWinText:setTextColor(176/255, 179/255, 191/255)	
 			end
 		end
 	end
