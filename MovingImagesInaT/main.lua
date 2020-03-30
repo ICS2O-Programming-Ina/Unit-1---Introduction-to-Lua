@@ -16,6 +16,8 @@ local backgroundImage = display.newImageRect("Images/background.png", 2048, 1536
 
 -- character image with width and height 
 local beetleship = display.newImageRect("Images/beetleship.png", 200, 200)
+local endlessMotionMusic = audio.loadStream( "Sound/endlessMotionMusic.mp3" )
+audio.play(endlessMotionMusic, {loops = -1})
 
 -- set the image to be transparent 
 beetleship.alpha = 0 

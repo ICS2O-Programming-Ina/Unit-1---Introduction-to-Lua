@@ -27,6 +27,13 @@ textObject.x = 512
 textObject.y = 300
 textObject.isVisible = false 
 
+-- create polka dot background, set its position, adjust the transparency, and make it invisible
+local polkaDots = display.newImageRect("Images/polkaDots.png", 1024, 700)
+polkaDots.x = 512
+polkaDots.y = 384
+polkaDots.isVisible = false
+polkaDots.alpha = .1
+
 ---------------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 ---------------------------------------------------------------------------------------------
@@ -46,6 +53,7 @@ local function BlueButtonListener(touch)
 		redButton.isVisible = true
 		correctSoundChannel = audio.play(correctSound)
 		textObject.isVisible = true 
+		polkaDots.isVisible = true
 	end
 end 
 
@@ -61,11 +69,16 @@ local function RedButtonListener(touch)
 		redButton.isVisible = false 
 		blueButton.isVisible = true 
 		textObject.isVisible = false 
+		polkaDots.isVisible = false
 	end
 end 
 
 -- add the respective listeners to each object 
 redButton: addEventListener("touch", RedButtonListener)
+
+
+
+
 
 
 

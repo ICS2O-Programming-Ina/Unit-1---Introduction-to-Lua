@@ -158,7 +158,3 @@ incorrectText:setTextColor(124/255, 133/255, 255/255)
 
 -- call the function to ask the question 
 AskQuestion()
-
-
-
-

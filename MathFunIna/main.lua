@@ -18,27 +18,42 @@ display.setDefault("background", 93/255, 137/255, 128/255)
 local questionObject 
 local correctObject 
 local numericField 
-local randomOperator = math.random(1,2)
+local randomOperator = math.random(1,4)
 local randomNumber1
 local randomNumber2 
 local userAnswer 
 local correctAnswer
+local correctAnswer1
 local inCorrectObject 
 local textSize = 50
-local incorrect = 0
-local actualAnswerText 
+local correctSound = audio.loadSound( "Sounds/correctSound.mp3" )
+local correctSoundChannel
+local wrongSound = audio.loadSound( "Sounds/wrongSound.mp3" )
+local wrondSoundChannel
+local backgroundMusic = audio.loadStream( "Sounds/backgroundMusic.mp3" )
+audio.play(backgroundMusic, {loops = -1})
+local totalSeconds = 10
+local secondsLeft = 10
+local clockText 
+local countDownTimer 
+
+local lives = 3
+local heart1
+local heart2
+local heart3
+local heart4
+local roundedAnswer 
 ----------------------------------------------------------------------
 --LOCAL FUNCTIONS
 ----------------------------------------------------------------------
 
 local function AskQuestion()
 	-- generate a random number between 1 and 2 
-	randomOperator = math.random(1,2)
+	randomOperator = math.random(1,4)
 
 	-- generate 2 random numbers
 	randomNumber1 = math.random(0, 4)
 	randomNumber2 = math.random(0, 4)
-
 	-- if the random operator is 1, then do addition 
 	if (randomOperator == 1) then 
 
@@ -48,12 +63,31 @@ local function AskQuestion()
 		-- create question in text object 
 		questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
 
-	-- otherwise, if the random operatio is 2, do subtraction 
-	elseif (randomOperator == 2) then 
-		-- calculate the correct answer 
-		correctAnswer = randomNumber1 - randomNumber2 
+	-- otherwise, if the random operator is 3, do multiplication
+	elseif (randomOperator == 3) then 
+		-- calculate the correcr answer 
+		correctAnswer = randomNumber1 * randomNumber2 
 
 		-- create question in text object 
+		questionObject.text = randomNumber1 .. " x " .. randomNumber2 .. " = "
+
+	-- otherwise, if the random operator is 4, do division
+	elseif (randomOperator == 4) then 
+		-- calculate the correct answer 
+		correctAnswer1 = randomNumber1 * randomNumber2 
+		correctAnswer = correctAnswer1 / randomNumber1 
+		questionObject.text = correctAnswer1 .. " / " .. randomNumber1 .. " = "
+		
+	-- otherwise, if the random operator is 2, do subtraction 
+	elseif (randomOperator == 2) then 
+		-- calculate the correct answer 
+		correctAnswer = randomNumber1 - randomNumber2  
+		roundedAnswer = print( math.round( correctAnswer ) )
+
+		if (randomNumber1 < randomNumber2) then 
+			correctAnswer = randomNumber2 - randomNumber1
+			questionObject.text = randomNumber2 .. " - " .. randomNumber1 .. " = "
+		end
 	end
 end 
 
@@ -83,14 +117,52 @@ local function NumericFieldListener( event )
 		-- if the users answer and correct answer are the same: 
 		if (userAnswer == correctAnswer) then 
 			event.target.text = ""
+			correctSoundChannel = audio.play(correctSound)
 			correctObject.isVisible = true 
 			timer.performWithDelay(2100, HideCorrect)
+			print( math.round( correctAnswer ) )
 		else
-			event.target.text = ""					
+			event.target.text = ""	
+			wrongSoundChannel = audio.play(wrongSound)				
 			inCorrectObject.isVisible = true
 			timer.performWithDelay(2500, HideInCorrect)
 		end
 	end
+end
+
+local function UpdateTime()
+
+	-- decrement the number of seconds 
+	secondsLeft = secondsLeft - 1
+
+	-- display the number of seconds left in the clock object
+	clockText.text = secondsLeft .. ""
+
+	if (seondsLeft == 0) then 
+		-- reset the number of seconds left 
+		secondsLeft = totalSeconds
+		lives =  lives - 1
+
+		-- *** IF THERE ARE NO LLIVES LEFT, PLAY A LOSE SOUND, SHOW A LOSE IMAGE 
+		-- AND CANCEL THE TIMER REMOVE THE THIRD HEART BY MAKING IT INVISBLE 
+		if (lives == 3) then 
+			heart4.isVisible = false 
+		elseif (lives == 2) then 
+			heart3.isVisible = false 
+		elseif (lives == 1) then 
+			heart2.isVisible = false
+		elseif (lives == 0) then
+			heart1.isVisible = false 
+		end
+	-- *** CALLL THE FUNCTION TO ASK A NEW QUESTION 
+
+	end
+end
+
+-- function that calls the timer 
+local function StartTimer()
+	-- create a countdown timer that loops infinetly 
+	countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0)
 end
 
 -------------------------------------------------------------------------------------
@@ -98,25 +170,45 @@ end
 -------------------------------------------------------------------------------------
 
 -- displays a question and sets the colour 
-questionObject = display.newText( "", 210, 70, nil, 50, Arial, textSize )
+questionObject = display.newText( "", 410, 370, nil, 70, Arial, textSize )
 questionObject:setTextColor(250/255, 209/255, 243/255)
 
 -- create the correct text object and make it visible 
-correctObject = display.newText( "Correct!", 230, 150, nil, 50 )
+correctObject = display.newText( "Correct!", 480, 460, nil, 50 )
 correctObject:setTextColor(186/255, 188/255, 186/255)
 correctObject.isVisible = false 
 
 -- create the incorrect text obejct and make it visible 
-inCorrectObject = display.newText( "Incorrect", 230, 150, nil, 50 )
+inCorrectObject = display.newText( "Incorrect", 480, 460, nil, 50 )
 inCorrectObject:setTextColor(209/255, 209/255, 209/255)
 inCorrectObject.isVisible = false 
 
 -- create numeric field 
-numericField = native.newTextField( 370, 70, 150, 70 )
-numericField.inputType = "number"
+numericField = native.newTextField( 590, 370, 150, 90 )
+numericField.inputType = "decimal"
 
 -- add the event listener fot the numeric field 
 numericField:addEventListener( "userInput", NumericFieldListener )
+
+-- create the lives to display on the screen 
+heart1 = display.newImageRect("Images/heart.png", 50, 50)
+heart1.x = 980
+heart1.y = 70
+
+heart2 = display.newImageRect("Images/heart.png", 50, 50)
+heart2.x = 880
+heart2.y = 70
+
+heart3 = display.newImageRect("Images/heart.png", 50, 50)
+heart3.x = 780
+heart3.y = 70
+
+heart4 = display.newImageRect("Images/heart.png", 50, 50)
+heart4.x = 680
+heart4.y = 70
+
+clockText = display.newText( secondsLeft, 55, 70, nil, 50, Arial, textSize )
+clockText:setTextColor( 255/255, 255/255, 255/255)
 
 -----------------------------------------------------------------------------------------
 -- FUNCTION CALLS 
