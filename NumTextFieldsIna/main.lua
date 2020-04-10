@@ -100,7 +100,7 @@ local function NumericFieldListener( event )
 			timer.performWithDelay(2500, HideInCorrect)
 			incorrect = incorrect + 1
 			incorrectText.text = "Incorrect = " .. incorrect
-			actualAnswerText,isVisible = true
+			actualAnswerText.isVisible = true
 			timer.performWithDelay(2500, HideActualAnswerText)
 			actualAnswerText = display.newText("The correct answer is " .. correctAnswer, 280, 205, nil, 30)
 			actualAnswerText:setTextColor(176/255, 179/255, 191/255 )					
